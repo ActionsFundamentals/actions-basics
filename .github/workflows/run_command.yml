@@ -45,6 +45,6 @@ jobs:
             // Create an Issue with the output from the command
             github.issues.create({
               ...context.repo,
-              title: `Workflow Output for Actons run: ${context.run_id}`,
+              title: `Workflow Output for Actons run: ${context.runId}`,
               body: body + (shellOutput ? '```' + shellOutput + '```' : '(no output)')
             });
