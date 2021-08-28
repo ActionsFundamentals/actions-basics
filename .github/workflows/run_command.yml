@@ -10,7 +10,7 @@ on:
     inputs:
       command:
         description: The command to run
-        default: ls -la
+        default: curl https://api.github.com/octocat
 
 jobs:
   run-command:
@@ -45,6 +45,6 @@ jobs:
             // Create an Issue with the output from the command
             github.issues.create({
               ...context.repo,
-              title: `Workflow Output for Actons run: ${context.job}`,
+              title: `Workflow Output for Actons run: ${context.run_id}`,
               body: body + (shellOutput ? '```' + shellOutput + '```' : '(no output)')
             });
