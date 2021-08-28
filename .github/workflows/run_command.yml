@@ -40,7 +40,7 @@ jobs:
               shellOutput = error.message;
             }
             
-            const body = `##Running command\n\n\`\`\`${command}\`\`\`\n\n##Output\n`;
+            const body = `## Running command\n\n\`\`\`${command}\`\`\`\n\n## Output\n`;
             
             // Create an Issue with the output from the command
             github.issues.create({
