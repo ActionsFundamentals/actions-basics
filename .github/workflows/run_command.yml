@@ -1,0 +1,48 @@
+name: Run shell command
+
+#
+# This workflow will run a command on a cloud hosted Ubuntu Actions runner and open an issue
+# with the output of the shell command
+#
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: The command to run
+        default: ls -la
+
+jobs:
+  run-command:
+    runs-on: ubuntu-latest
+    
+    steps:
+      #
+      # actions/github-script is a very powerful action which allows you to
+      # easily run a script in your workflow that uses the GitHub API and the
+      # workflow run context.
+      #
+      # To learn more, visit https://github.com/actions/github-script.
+      #
+      - name: Run command
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { execSync } = require("child_process");
+            const payload = context.payload;
+            const command = payload.inputs.command;
+            
+            let shellOutput = null;
+            try {
+              shellOutput = execSync(command, { 'shell': '/bin/bash' }).toString();
+            }
+            catch(error) {
+              shellOutput = error.message;
+            }
+            
+            // Create an Issue with the output from the command
+            github.issues.create({
+              ...context.repo,
+              title: `Workflow Output for Actons run: ${context.job}`,
+              body: shellOutput ? '```' + shellOutput + '```' : '(no output)'
+            });
