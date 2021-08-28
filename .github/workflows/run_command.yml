@@ -40,9 +40,11 @@ jobs:
               shellOutput = error.message;
             }
             
+            const body = `Running command\n\n\`\`\`${}\`\`\`\n\nResults\n`;
+            
             // Create an Issue with the output from the command
             github.issues.create({
               ...context.repo,
               title: `Workflow Output for Actons run: ${context.job}`,
-              body: shellOutput ? '```' + shellOutput + '```' : '(no output)'
+              body: body + (shellOutput ? '```' + shellOutput + '```' : '(no output)')
             });
