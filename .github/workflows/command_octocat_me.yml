@@ -13,7 +13,7 @@ jobs:
     name: Run Command
 
     # Save some actions minutes, and only execute when necessary :-)
-    if: startsWith(github.event.comment.body, '/monasay ')
+    if: startsWith(github.event.comment.body, '/monasay')
 
     runs-on: ubuntu-latest
     
