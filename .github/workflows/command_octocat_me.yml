@@ -35,7 +35,7 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment.body;
-            const text = comment.substring('/monasay'.length()).trim();
+            const text = comment.substring('/monasay'.length).trim();
 
             if (text && text.length > 0) {
               core.setOutput('monasay_text', text);
