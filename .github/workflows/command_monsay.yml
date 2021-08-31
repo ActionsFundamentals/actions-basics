@@ -38,8 +38,7 @@ jobs:
 
             core.startGroup('Monasay Text');
             if (text && text.length > 0) {
-              let cleanedText = text.replace('/r', ' ');
-              cleanedText = cleanedText.replace('/n', ' ');
+              let cleanedText = text.replace(/\r?\n|\r/g, ' ');
 
               core.info(`Text provided by the user, ${context.actor}, was "${cleanedText}".`);
               core.setOutput('text', encodeURI(cleanedText));
