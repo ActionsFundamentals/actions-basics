@@ -40,7 +40,7 @@ jobs:
               core.setOutput('text', text);
             }
 
-      - name: Check for presence of IP Address in GitHub Meta hooks
+      - name: Obtain Monasay and post comment back
         uses: actions/github-script@v4
         env:
           text: ${{ steps.comment_text.outputs.text }}
@@ -48,7 +48,6 @@ jobs:
           script: |
             const { execSync } = require("child_process");
             const payload = context.payload;
-            const command = payload.inputs.command;
             
             let command = 'curl https://api.github.com/octocat';
             if (process.env.text) {
