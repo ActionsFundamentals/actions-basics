@@ -1,0 +1,58 @@
+name: Command - Monasay
+
+#
+# This workflow will respond to /monasay commands in Issue comments
+#
+
+on:
+  issue_comment:
+  
+
+jobs:
+  run-command:
+    name: Run Command
+
+    # Save some actions minutes, and only execute when necessary :-)
+    if: startsWith(github.event.comment.body, '/monasay ')
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Acknowledge Command
+        uses: actions/github-script@v4
+        with:
+          script: |
+            // Put eyes on the comment
+            await github.reactions.createForIssueComment({
+                ...context.repo,
+                comment_id: context.payload.comment.id,
+                content: 'eyes'
+              });
+
+      - name: Extract any text provided by the user
+        id: comment_text
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const comment = context.payload.comment.body;
+            const text = comment.substring('/monasay'.length()).trim();
+
+            if (text && text.length > 0) {
+              core.setOutput('monasay_text', text);
+            }
+
+      - name: Get Octocat ASCII Art and publish a comment back
+        uses: actions/github-script@v4
+        env:
+          mona_text: ${{ steps.comment_text.outputs.monasay_text }}
+        with:
+          script: |
+            const data = await github.meta.getOctocat({
+              s: process.env.mona_text
+            });
+
+            await github.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body: data
+              });
