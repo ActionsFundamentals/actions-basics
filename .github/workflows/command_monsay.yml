@@ -7,7 +7,6 @@ name: Command - Monasay
 on:
   issue_comment:
   
-
 jobs:
   run-command:
     name: Run Command
@@ -38,22 +37,34 @@ jobs:
             const text = comment.substring('/monasay'.length).trim();
 
             if (text && text.length > 0) {
-              core.setOutput('monasay_text', text);
+              core.setOutput('text', text);
             }
 
-      - name: Get Octocat ASCII Art and publish a comment back
+      - name: Check for presence of IP Address in GitHub Meta hooks
         uses: actions/github-script@v4
         env:
-          mona_text: ${{ steps.comment_text.outputs.monasay_text }}
+          text: ${{ steps.comment_text.outputs.text }}
         with:
           script: |
-            console.log(`${JSON.stringify(github.meta)}`);
-            const data = await github.meta.getOctocat({
-              s: process.env.mona_text
-            });
+            const { execSync } = require("child_process");
+            const payload = context.payload;
+            const command = payload.inputs.command;
+            
+            let command = 'curl https://api.github.com/octocat';
+            if (process.env.text) {
+              command += `?s=${encodeURI(process.env.text)}`;
+            }
+
+            let shellOutput = null;
+            try {
+              shellOutput = execSync(command, { 'shell': '/bin/bash' }).toString();
+            }
+            catch(error) {
+              shellOutput = error.message;
+            }
 
             await github.issues.createComment({
                 ...context.repo,
                 issue_number: context.issue.number,
-                body: data
+                body: shellOutput
               });
