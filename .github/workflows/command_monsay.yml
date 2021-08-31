@@ -38,10 +38,11 @@ jobs:
 
             core.startGroup('Monasay Text');
             if (text && text.length > 0) {
-              let cleanedText = text.replaceAll('/r', ' ');
-              cleanedText = text.replaceAll('/n', ' ');
-              core.setOutput('text', encodeURI(cleanedText));
+              let cleanedText = text.replace('/r', ' ');
+              cleanedText = cleanedText.replace'/n', ' ');
+
               core.info(`Text provided by the user, ${context.actor}, was "${cleanedText}".`);
+              core.setOutput('text', encodeURI(cleanedText));
             } else {
               core.info(`No text provided by the user, ${context.actor}`)
             }
