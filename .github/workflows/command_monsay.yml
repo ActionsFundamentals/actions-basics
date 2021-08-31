@@ -37,7 +37,7 @@ jobs:
             const text = comment.substring('/monasay'.length).trim();
 
             if (text && text.length > 0) {
-              core.setOutput('text', text);
+              core.setOutput('text', encodeURI(text));
             }
 
       - name: Obtain Monasay and post comment back
@@ -51,7 +51,7 @@ jobs:
             
             let command = 'curl https://api.github.com/octocat';
             if (process.env.text) {
-              command += `?s=${encodeURI(process.env.text)}`;
+              command += `?s=${process.env.text}`;
             }
 
             let shellOutput = null;
