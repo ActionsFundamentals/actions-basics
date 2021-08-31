@@ -39,9 +39,9 @@ jobs:
             core.startGroup('Monasay Text');
             if (text && text.length > 0) {
               core.setOutput('text', encodeURI(text));
-              core.log(`Text provided by the user, ${context.actor}, was "${text}".`);
+              core.info(`Text provided by the user, ${context.actor}, was "${text}".`);
             } else {
-              core.log(`No text provided by the user, ${context.actor}`)
+              core.info(`No text provided by the user, ${context.actor}`)
             }
             core.endGroup();
 
