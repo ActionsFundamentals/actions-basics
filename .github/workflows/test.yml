@@ -22,6 +22,19 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Show context
+        uses: actions/github-script@v4
+        with:
+          script: |            
+            core.startGroup('Context');
+            core.info(JSON.stringify(context, null, 2))
+            core.endGroup();
+            
+            core.startGroup('Env Vars');
+            core.info(JSON.stringify(process.env, null, 2));
+            core.ednGroup();
+        
+    
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
