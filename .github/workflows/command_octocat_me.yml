@@ -47,7 +47,8 @@ jobs:
           mona_text: ${{ steps.comment_text.outputs.monasay_text }}
         with:
           script: |
-            const data = await github.rest.meta.getOctocat({
+            console.log(`${JSON.stringify(github.meta)}`);
+            const data = await github.meta.getOctocat({
               s: process.env.mona_text
             });
 
