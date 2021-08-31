@@ -32,7 +32,7 @@ jobs:
             
             core.startGroup('Env Vars');
             core.info(JSON.stringify(process.env, null, 2));
-            core.ednGroup();
+            core.endGroup();
         
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
