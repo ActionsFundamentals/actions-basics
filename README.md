@@ -1,4 +1,4 @@
-# Hands-on exercise 1
+# Hands-on exercise 1 🎉
 
 ## Usage
 
